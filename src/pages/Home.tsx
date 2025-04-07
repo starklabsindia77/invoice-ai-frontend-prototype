@@ -3,22 +3,39 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
-import { ArrowRight, CheckCircle, FileText, Database, Shield } from 'lucide-react';
+import { 
+  ArrowRight, 
+  CheckCircle, 
+  FileText, 
+  Database, 
+  Shield, 
+  Sparkles,
+  Clock,
+  Coins,
+  Globe,
+  Zap
+} from 'lucide-react';
 
 const Home: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section - Inspired by Attio's clean hero design */}
-      <div className="bg-gradient-to-br from-brand-800 to-brand-950 text-white overflow-hidden relative">
-        <div className="container mx-auto px-4 py-24 md:py-32">
-          <div className="max-w-3xl mx-auto text-center relative z-10">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in leading-tight">
-              Transform Invoice Processing with Enterprise-Grade AI
-            </h1>
-            <p className="text-xl md:text-2xl mb-10 text-brand-100 opacity-90 leading-relaxed">
-              Extract, validate, and process invoice data automatically with industry-leading accuracy and security.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
+      <div className="relative overflow-hidden bg-gradient-to-br from-brand-800 to-brand-950 text-white">
+        <div className="container mx-auto px-4 py-20 md:py-32 relative z-10">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-8">
+              <div className="inline-block bg-white/10 backdrop-blur-md rounded-full px-4 py-1.5 text-sm font-medium text-white/90 mb-6 animate-fade-in">
+                Introducing AI-powered Invoice Processing
+              </div>
+              <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in leading-tight tracking-tight">
+                Transform Invoice<br />Processing with Enterprise-Grade AI
+              </h1>
+              <p className="text-xl md:text-2xl mb-10 text-white/80 leading-relaxed max-w-2xl mx-auto">
+                Extract, validate, and process invoice data automatically with industry-leading accuracy in 15+ languages including all major Indian languages.
+              </p>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
               <Button 
                 size="lg" 
                 className="bg-white text-brand-800 hover:bg-brand-100 font-medium px-8"
@@ -35,39 +52,173 @@ const Home: React.FC = () => {
                 <Link to="/demo" className="flex items-center">Watch Demo <ArrowRight className="ml-2 h-4 w-4" /></Link>
               </Button>
             </div>
+            
+            {/* Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12 mt-16">
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center">
+                <div className="text-4xl font-bold mb-2">85%</div>
+                <div className="text-white/80 text-sm">Average reduction in invoice processing time</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center">
+                <div className="text-4xl font-bold mb-2">99.8%</div>
+                <div className="text-white/80 text-sm">Data extraction accuracy</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center">
+                <div className="text-4xl font-bold mb-2">15+</div>
+                <div className="text-white/80 text-sm">Languages supported</div>
+              </div>
+            </div>
           </div>
         </div>
         
-        {/* Abstract background element similar to Attio */}
-        <div className="absolute inset-0 overflow-hidden opacity-10">
-          <div className="absolute -top-1/2 -right-1/4 w-full h-full rounded-full bg-brand-500 blur-3xl"></div>
-          <div className="absolute -bottom-1/2 -left-1/4 w-full h-full rounded-full bg-brand-600 blur-3xl"></div>
+        {/* Abstract background elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-1/4 -right-1/4 w-1/2 h-1/2 rounded-full bg-brand-700/20 blur-3xl"></div>
+          <div className="absolute -bottom-1/4 -left-1/4 w-1/2 h-1/2 rounded-full bg-brand-600/20 blur-3xl"></div>
+          
+          {/* Grid pattern */}
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNCI+PHBhdGggZD0iTTM2IDM0aDR2MWgtNHYtMXptMC0yaDF2NGgtMXYtNHptMi0xaDF2MWgtMXYtMXptLTIgM2gxdjFoLTF2LTF6bS0yLTRoM3YxaC0zdi0xeiIvPjwvZz48L2c+PC9zdmc+')] opacity-20"></div>
         </div>
       </div>
 
-      {/* Trusted By Section */}
-      <div className="py-12 bg-gray-50 border-y border-gray-200">
+      {/* Client Logo Section - Attio-inspired clean layout */}
+      <div className="py-12 bg-white border-b border-gray-100">
         <div className="container mx-auto px-4">
-          <p className="text-center text-sm font-medium text-muted-foreground mb-6 uppercase tracking-wide">Trusted by businesses across industries</p>
-          <div className="flex flex-wrap justify-center items-center gap-x-10 gap-y-8">
-            <div className="text-xl font-bold text-gray-400">Alpha Corp</div>
-            <div className="text-xl font-bold text-gray-400">Beta Solutions</div>
-            <div className="text-xl font-bold text-gray-400">Gamma Enterprises</div>
-            <div className="text-xl font-bold text-gray-400">India Business</div>
-            <div className="text-xl font-bold text-gray-400">Legal Partners</div>
+          <p className="text-center text-sm font-medium text-muted-foreground mb-8 uppercase tracking-wide">Trusted by businesses across industries</p>
+          <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8">
+            <div className="text-xl font-bold text-gray-300">Alpha Corp</div>
+            <div className="text-xl font-bold text-gray-300">Beta Solutions</div>
+            <div className="text-xl font-bold text-gray-300">Gamma Enterprises</div>
+            <div className="text-xl font-bold text-gray-300">India Business</div>
+            <div className="text-xl font-bold text-gray-300">Legal Partners</div>
           </div>
         </div>
       </div>
 
-      {/* Features Section - Card-based similar to Attio */}
+      {/* Value Proposition - Attio-inspired sections */}
       <div className="py-24 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
-              Powerful Features for Modern Businesses
+          <div className="text-center mb-16 max-w-3xl mx-auto">
+            <div className="text-brand-600 font-medium mb-3">WHY INVOICEAI</div>
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gray-900 tracking-tight">
+              Reimagining invoice processing for modern businesses
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground">
               Our AI-powered platform extracts data from invoices with industry-leading accuracy, saving you time and reducing errors.
+            </p>
+          </div>
+
+          {/* Feature Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-24">
+            <div>
+              <div className="w-12 h-12 bg-brand-100 text-brand-600 rounded-lg flex items-center justify-center mb-6">
+                <Clock className="h-6 w-6" />
+              </div>
+              <h3 className="text-2xl font-bold mb-4">Save 85% of processing time</h3>
+              <p className="text-lg text-muted-foreground mb-6">
+                Automate manual data entry and approval workflows, freeing your team to focus on strategic financial activities.
+              </p>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-brand-600 mt-0.5" />
+                  <span>Process hundreds of invoices in minutes instead of hours</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-brand-600 mt-0.5" />
+                  <span>Automated data extraction eliminates manual entry</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-brand-600 mt-0.5" />
+                  <span>Intelligent workflows route invoices automatically</span>
+                </li>
+              </ul>
+            </div>
+            
+            <div>
+              <div className="w-12 h-12 bg-brand-100 text-brand-600 rounded-lg flex items-center justify-center mb-6">
+                <Sparkles className="h-6 w-6" />
+              </div>
+              <h3 className="text-2xl font-bold mb-4">99.8% data extraction accuracy</h3>
+              <p className="text-lg text-muted-foreground mb-6">
+                Our advanced AI models extract data with unprecedented accuracy, even from complex invoice layouts.
+              </p>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-brand-600 mt-0.5" />
+                  <span>Advanced OCR with deep learning capabilities</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-brand-600 mt-0.5" />
+                  <span>Recognizes and adapts to various invoice formats</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-brand-600 mt-0.5" />
+                  <span>Continuous model improvement with each processed invoice</span>
+                </li>
+              </ul>
+            </div>
+            
+            <div>
+              <div className="w-12 h-12 bg-brand-100 text-brand-600 rounded-lg flex items-center justify-center mb-6">
+                <Globe className="h-6 w-6" />
+              </div>
+              <h3 className="text-2xl font-bold mb-4">Multilingual support</h3>
+              <p className="text-lg text-muted-foreground mb-6">
+                Process invoices in 15+ languages, including all major Indian languages, with the same high accuracy.
+              </p>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-brand-600 mt-0.5" />
+                  <span>Support for Hindi, Bengali, Tamil, Telugu, and more</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-brand-600 mt-0.5" />
+                  <span>Language-specific extraction rules and validation</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-brand-600 mt-0.5" />
+                  <span>Regional tax compliance (GST, VAT, etc.)</span>
+                </li>
+              </ul>
+            </div>
+            
+            <div>
+              <div className="w-12 h-12 bg-brand-100 text-brand-600 rounded-lg flex items-center justify-center mb-6">
+                <Coins className="h-6 w-6" />
+              </div>
+              <h3 className="text-2xl font-bold mb-4">Reduce processing costs by 65%</h3>
+              <p className="text-lg text-muted-foreground mb-6">
+                Cut processing costs significantly while improving accuracy and compliance.
+              </p>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-brand-600 mt-0.5" />
+                  <span>Lower operational costs through automation</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-brand-600 mt-0.5" />
+                  <span>Reduced error correction and rework</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-brand-600 mt-0.5" />
+                  <span>Capture early payment discounts through faster processing</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Product Features - More detailed feature set */}
+      <div className="py-24 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <div className="text-brand-600 font-medium mb-3">CORE FEATURES</div>
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gray-900 tracking-tight">
+              Powerful features for modern businesses
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Our comprehensive platform is designed to handle your entire invoice processing workflow.
             </p>
           </div>
 
@@ -141,60 +292,156 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      {/* How It Works - Attio-inspired process section */}
-      <div className="py-24 bg-gray-50">
+      {/* How It Works - Process section */}
+      <div className="py-24 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
-              How InvoiceAI Works
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Our streamlined process makes invoice data extraction simple and efficient.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-brand-100 text-brand-600 rounded-full flex items-center justify-center mb-4 mx-auto">
-                <span className="text-xl font-bold">1</span>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Upload</h3>
-              <p className="text-muted-foreground">
-                Upload your invoices through our secure portal, API, or email integration.
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div>
+              <div className="text-brand-600 font-medium mb-3">HOW IT WORKS</div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">
+                A simple, powerful workflow
+              </h2>
+              <p className="text-lg text-muted-foreground mb-10">
+                Our streamlined process makes invoice data extraction simple and efficient, with minimal setup required.
               </p>
+              
+              <div className="space-y-8">
+                <div className="flex gap-4">
+                  <div className="w-12 h-12 bg-brand-100 text-brand-600 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-xl font-bold">1</span>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2">Upload</h3>
+                    <p className="text-muted-foreground">
+                      Upload your invoices through our secure portal, API, or email integration. Batch upload is supported for high volume processing.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex gap-4">
+                  <div className="w-12 h-12 bg-brand-100 text-brand-600 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-xl font-bold">2</span>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2">Process</h3>
+                    <p className="text-muted-foreground">
+                      Our AI extracts and validates all relevant data fields with industry-leading accuracy. Advanced validation rules ensure data quality.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex gap-4">
+                  <div className="w-12 h-12 bg-brand-100 text-brand-600 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-xl font-bold">3</span>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2">Review</h3>
+                    <p className="text-muted-foreground">
+                      Review extracted data with our intuitive interface. Any exceptions are highlighted for quick verification and correction.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex gap-4">
+                  <div className="w-12 h-12 bg-brand-100 text-brand-600 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-xl font-bold">4</span>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2">Export</h3>
+                    <p className="text-muted-foreground">
+                      Sync with your accounting software or download structured data in your preferred format (CSV, Excel, JSON, or XML).
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-10">
+                <Button size="lg" asChild>
+                  <Link to="/demo" className="flex items-center">
+                    See it in action <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
             </div>
             
-            <div className="text-center">
-              <div className="w-16 h-16 bg-brand-100 text-brand-600 rounded-full flex items-center justify-center mb-4 mx-auto">
-                <span className="text-xl font-bold">2</span>
+            <div className="bg-gray-100 rounded-2xl p-8 relative">
+              <div className="absolute -left-4 -top-4 w-24 h-24 bg-brand-100 rounded-xl -z-10"></div>
+              <div className="absolute -right-4 -bottom-4 w-32 h-32 bg-brand-50 rounded-xl -z-10"></div>
+              
+              <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
+                <div className="flex items-center mb-4">
+                  <div className="w-10 h-10 bg-brand-600 rounded-full text-white flex items-center justify-center font-bold text-lg mr-3">
+                    1
+                  </div>
+                  <div className="font-medium">Upload invoice</div>
+                </div>
+                <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center">
+                  <div className="text-muted-foreground mb-3">Drag & drop files here or</div>
+                  <Button variant="outline" size="sm">Browse files</Button>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Process</h3>
-              <p className="text-muted-foreground">
-                Our AI extracts and validates all relevant data fields with industry-leading accuracy.
-              </p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-16 h-16 bg-brand-100 text-brand-600 rounded-full flex items-center justify-center mb-4 mx-auto">
-                <span className="text-xl font-bold">3</span>
+              
+              <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
+                <div className="flex items-center mb-4">
+                  <div className="w-10 h-10 bg-brand-600 rounded-full text-white flex items-center justify-center font-bold text-lg mr-3">
+                    2
+                  </div>
+                  <div className="font-medium">AI processing</div>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-center">
+                    <Zap className="h-5 w-5 text-brand-600 mr-2" />
+                    <div className="text-sm">Extracting invoice data...</div>
+                  </div>
+                  <div className="w-full bg-gray-100 rounded-full h-2">
+                    <div className="bg-brand-600 h-2 rounded-full w-3/4"></div>
+                  </div>
+                  <div className="text-xs text-muted-foreground">Processing 3 of 4 pages</div>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Export</h3>
-              <p className="text-muted-foreground">
-                Sync with your accounting software or download structured data in your preferred format.
-              </p>
+              
+              <div className="bg-white rounded-xl shadow-sm p-6">
+                <div className="flex items-center mb-4">
+                  <div className="w-10 h-10 bg-brand-600 rounded-full text-white flex items-center justify-center font-bold text-lg mr-3">
+                    3
+                  </div>
+                  <div className="font-medium">Extracted data</div>
+                </div>
+                <div className="space-y-3">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <div className="text-xs text-muted-foreground">Invoice Number</div>
+                      <div className="font-medium">INV-2023-001</div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-muted-foreground">Date</div>
+                      <div className="font-medium">21/03/2023</div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-muted-foreground">Total Amount</div>
+                      <div className="font-medium">₹24,500.00</div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-muted-foreground">GST Number</div>
+                      <div className="font-medium">29AADCB2230M1ZP</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Testimonials - Inspired by Attio's clean testimonial section */}
-      <div className="py-24 bg-white">
+      {/* Testimonials Section */}
+      <div className="py-24 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
-              Trusted by Businesses Worldwide
+            <div className="text-brand-600 font-medium mb-3">TESTIMONIALS</div>
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gray-900 tracking-tight">
+              Trusted by businesses worldwide
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               See how InvoiceAI is helping companies streamline their invoice processing workflows.
             </p>
           </div>
@@ -248,17 +495,26 @@ const Home: React.FC = () => {
               </CardContent>
             </Card>
           </div>
+          
+          <div className="text-center mt-10">
+            <Button variant="outline" size="lg" asChild>
+              <Link to="/customers" className="flex items-center">
+                View all customer stories <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
 
-      {/* Pricing Section - Inspired by Attio's clean pricing section */}
-      <div className="py-24 bg-gray-50">
+      {/* Pricing Section Preview */}
+      <div className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
-              Simple, Transparent Pricing
+            <div className="text-brand-600 font-medium mb-3">PRICING</div>
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gray-900 tracking-tight">
+              Simple, transparent pricing
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Choose the plan that's right for your business needs.
             </p>
           </div>
@@ -364,15 +620,23 @@ const Home: React.FC = () => {
               </CardContent>
             </Card>
           </div>
+          
+          <div className="text-center mt-12">
+            <Button variant="outline" size="lg" asChild>
+              <Link to="/pricing" className="flex items-center">
+                View detailed pricing <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
 
-      {/* CTA Section - Attio-inspired clean CTA */}
+      {/* CTA Section */}
       <div className="py-24 bg-brand-800 text-white">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Ready to Revolutionize Your Invoice Processing?
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">
+              Ready to revolutionize your invoice processing?
             </h2>
             <p className="text-xl mb-8 max-w-2xl mx-auto text-brand-100 opacity-90">
               Join thousands of businesses that trust InvoiceAI for their document processing needs.

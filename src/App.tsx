@@ -18,6 +18,10 @@ import Integrations from "./pages/dashboard/Integrations";
 import Subscription from "./pages/dashboard/Subscription";
 import Settings from "./pages/dashboard/Settings";
 import NotFound from "./pages/NotFound";
+import Pricing from "./pages/Pricing";
+import Customers from "./pages/Customers";
+import Platforms from "./pages/Platforms";
+import Resources from "./pages/Resources";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +39,12 @@ const App = () => (
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
+                
+                {/* New Pages */}
+                <Route path="/pricing" element={<Pricing />} />
+                <Route path="/customers" element={<Customers />} />
+                <Route path="/platforms" element={<Platforms />} />
+                <Route path="/resources" element={<Resources />} />
                 
                 {/* Dashboard Routes */}
                 <Route path="/dashboard" element={<Dashboard />} />
