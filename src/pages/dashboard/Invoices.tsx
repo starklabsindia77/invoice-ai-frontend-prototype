@@ -12,6 +12,24 @@ import { toast } from 'sonner';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { PlusCircle, Tag, X } from 'lucide-react';
 
+type InvoiceItem = {
+  description: string;
+  quantity: number;
+  price: number;
+};
+
+type Invoice = {
+  id: string;
+  vendor: string;
+  amount: number;
+  date: string;
+  status: 'Processed' | 'Pending' | 'Failed';
+  gstId: string;
+  category: 'sales' | 'expense';
+  tags: string[];
+  items: InvoiceItem[];
+};
+
 // Sample invoice data with category and tags
 const invoices = [
   {
@@ -116,119 +134,74 @@ const invoices = [
 const availableTags = ['office', 'monthly', 'hardware', 'equipment', 'services', 'marketing', 'quarterly', 'utilities', 'product', 'enterprise', 'service', 'consultation', 'tax-deductible', 'recurring', 'one-time'];
 
 const Invoices: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('all');
-  const [selectedInvoice, setSelectedInvoice] = useState<any>(null);
+  const [activeTab, setActiveTab] = useState<string>('all');
+  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [newTag, setNewTag] = useState('');
-  
-  // Deep clone of invoices to allow modifications
-  const [invoiceData, setInvoiceData] = useState(JSON.parse(JSON.stringify(invoices)));
 
-  const filteredInvoices = invoiceData.filter((invoice: any) => {
-    // Filter by tab (status)
-    if (activeTab !== 'all' && invoice.status.toLowerCase() !== activeTab) {
-      return false;
-    }
-    
-    // Filter by category
-    if (categoryFilter !== 'all' && invoice.category !== categoryFilter) {
-      return false;
-    }
-    
-    // Filter by search text
+  const [invoiceData, setInvoiceData] = useState<Invoice[]>(JSON.parse(JSON.stringify(invoices)));
+
+  const filteredInvoices = invoiceData.filter((invoice) => {
+    if (activeTab !== 'all' && invoice.status.toLowerCase() !== activeTab) return false;
+    if (categoryFilter !== 'all' && invoice.category !== categoryFilter) return false;
     if (search) {
       return (
         invoice.id.toLowerCase().includes(search.toLowerCase()) ||
         invoice.vendor.toLowerCase().includes(search.toLowerCase())
       );
     }
-    
     return true;
   });
 
-  const handleExportCSV = () => {
-    toast.success('Invoice data exported to CSV');
-  };
-
-  const handleSyncAccounting = () => {
-    toast.success('Invoice data synced with accounting software');
-  };
-
+  const handleExportCSV = () => toast.success('Invoice data exported to CSV');
+  const handleSyncAccounting = () => toast.success('Invoice data synced with accounting software');
   const handleUpload = () => {
     toast.success('Invoice upload simulation started');
-    
-    setTimeout(() => {
-      toast.success('Invoice processed successfully');
-    }, 2000);
+    setTimeout(() => toast.success('Invoice processed successfully'), 2000);
   };
 
-  const updateInvoiceCategory = (invoiceId: string, category: string) => {
-    const updatedInvoices = invoiceData.map((invoice: any) => {
-      if (invoice.id === invoiceId) {
-        return { ...invoice, category };
-      }
-      return invoice;
-    });
-    
+  const updateInvoiceCategory = (invoiceId: string, category: 'sales' | 'expense') => {
+    const updatedInvoices = invoiceData.map((invoice) =>
+      invoice.id === invoiceId ? { ...invoice, category } : invoice
+    );
     setInvoiceData(updatedInvoices);
-    
-    if (selectedInvoice && selectedInvoice.id === invoiceId) {
-      setSelectedInvoice({ ...selectedInvoice, category });
-    }
-    
+    if (selectedInvoice?.id === invoiceId) setSelectedInvoice({ ...selectedInvoice, category });
     toast.success(`Invoice categorized as ${category}`);
   };
 
   const addTagToInvoice = (invoiceId: string, tag: string) => {
     if (!tag.trim()) return;
-    
-    const updatedInvoices = invoiceData.map((invoice: any) => {
-      if (invoice.id === invoiceId) {
-        const tags = invoice.tags || [];
-        if (!tags.includes(tag)) {
-          return { ...invoice, tags: [...tags, tag] };
-        }
+    const updatedInvoices = invoiceData.map((invoice) => {
+      if (invoice.id === invoiceId && !invoice.tags.includes(tag)) {
+        return { ...invoice, tags: [...invoice.tags, tag] };
       }
       return invoice;
     });
-    
     setInvoiceData(updatedInvoices);
-    
-    if (selectedInvoice && selectedInvoice.id === invoiceId) {
-      const updatedTags = [...(selectedInvoice.tags || [])];
-      if (!updatedTags.includes(tag)) {
-        updatedTags.push(tag);
-        setSelectedInvoice({ ...selectedInvoice, tags: updatedTags });
-      }
+    if (selectedInvoice?.id === invoiceId && !selectedInvoice.tags.includes(tag)) {
+      setSelectedInvoice({ ...selectedInvoice, tags: [...selectedInvoice.tags, tag] });
     }
-    
     setNewTag('');
   };
 
   const removeTagFromInvoice = (invoiceId: string, tagToRemove: string) => {
-    const updatedInvoices = invoiceData.map((invoice: any) => {
-      if (invoice.id === invoiceId) {
-        return { 
-          ...invoice, 
-          tags: (invoice.tags || []).filter((tag: string) => tag !== tagToRemove) 
-        };
-      }
-      return invoice;
-    });
-    
+    const updatedInvoices = invoiceData.map((invoice) =>
+      invoice.id === invoiceId
+        ? { ...invoice, tags: invoice.tags.filter((tag) => tag !== tagToRemove) }
+        : invoice
+    );
     setInvoiceData(updatedInvoices);
-    
-    if (selectedInvoice && selectedInvoice.id === invoiceId) {
-      setSelectedInvoice({ 
-        ...selectedInvoice, 
-        tags: (selectedInvoice.tags || []).filter((tag: string) => tag !== tagToRemove) 
+    if (selectedInvoice?.id === invoiceId) {
+      setSelectedInvoice({
+        ...selectedInvoice,
+        tags: selectedInvoice.tags.filter((tag) => tag !== tagToRemove),
       });
     }
   };
 
   return (
-    <DashboardLayout>
+    <>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Invoices</h1>
         <div className="flex space-x-2">
@@ -299,7 +272,7 @@ const Invoices: React.FC = () => {
 
                 <TabsContent value="all" className="m-0">
                   <div className="space-y-2">
-                    {filteredInvoices.map((invoice: any) => (
+                    {filteredInvoices.map((invoice: Invoice) => (
                       <div 
                         key={invoice.id}
                         className={`p-3 rounded-md cursor-pointer border ${
@@ -398,7 +371,7 @@ const Invoices: React.FC = () => {
                     <h3 className="text-sm font-medium text-muted-foreground mb-1">Category</h3>
                     <Select 
                       value={selectedInvoice.category} 
-                      onValueChange={(value) => updateInvoiceCategory(selectedInvoice.id, value)}
+                      onValueChange={(value) => updateInvoiceCategory(selectedInvoice.id, value as 'sales' | 'expense')}
                     >
                       <SelectTrigger className="h-8">
                         <SelectValue />
@@ -488,7 +461,7 @@ const Invoices: React.FC = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {selectedInvoice.items.map((item: any, index: number) => (
+                        {selectedInvoice.items.map((item: InvoiceItem, index: number) => (
                           <tr key={index} className="border-b border-border last:border-0">
                             <td className="py-3">{item.description}</td>
                             <td className="py-3 text-right">{item.quantity}</td>
@@ -548,7 +521,7 @@ const Invoices: React.FC = () => {
           )}
         </div>
       </div>
-    </DashboardLayout>
+    </>
   );
 };
 

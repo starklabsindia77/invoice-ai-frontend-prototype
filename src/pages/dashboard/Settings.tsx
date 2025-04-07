@@ -26,7 +26,7 @@ const Settings: React.FC = () => {
   };
 
   return (
-    <DashboardLayout>
+    <>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Settings</h1>
         <span className="text-sm text-muted-foreground">
@@ -339,7 +339,7 @@ const Settings: React.FC = () => {
           </Card>
         </TabsContent>
       </Tabs>
-    </DashboardLayout>
+    </>
   );
 };
 

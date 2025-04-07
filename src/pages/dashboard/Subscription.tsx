@@ -85,7 +85,7 @@ const Subscription: React.FC = () => {
   };
 
   return (
-    <DashboardLayout>
+    <>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Subscription & Usage</h1>
         <span className="text-sm text-muted-foreground">
@@ -245,7 +245,7 @@ const Subscription: React.FC = () => {
           ))}
         </div>
       </div>
-    </DashboardLayout>
+    </>
   );
 };
 
