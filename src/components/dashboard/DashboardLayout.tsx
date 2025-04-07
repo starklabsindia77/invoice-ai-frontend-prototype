@@ -1,8 +1,10 @@
 
 import React, { ReactNode } from 'react';
-import Sidebar from './Sidebar';
 import { useApp } from '@/contexts/AppContext';
 import { Navigate } from 'react-router-dom';
+import DashboardSidebar from './DashboardSidebar';
+import DashboardFooter from './DashboardFooter';
+import { SidebarProvider } from '@/components/ui/sidebar';
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -16,24 +18,27 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   }
 
   return (
-    <div className="flex h-screen bg-gray-50">
-      <Sidebar />
-      <div className="flex-1 overflow-auto ml-64">
-        <main className="p-6">
-          {/* Breadcrumb/tenant info */}
-          <div className="mb-6 pb-4 border-b border-border">
-            <div className="flex items-center text-sm text-muted-foreground">
-              <span className="font-medium text-foreground">{tenant?.name || 'Your Workspace'}</span>
-              <span className="mx-2 text-muted-foreground">•</span>
-              <span className="text-muted-foreground">{tenant?.subdomain}.invoiceai.com</span>
+    <SidebarProvider defaultOpen={true}>
+      <div className="flex min-h-screen w-full bg-gray-50">
+        <DashboardSidebar />
+        <div className="flex-1 flex flex-col">
+          <main className="flex-1 overflow-auto p-6">
+            {/* Breadcrumb/tenant info */}
+            <div className="mb-6 pb-4 border-b border-border">
+              <div className="flex items-center text-sm text-muted-foreground">
+                <span className="font-medium text-foreground">{tenant?.name || 'Your Workspace'}</span>
+                <span className="mx-2 text-muted-foreground">•</span>
+                <span className="text-muted-foreground">{tenant?.subdomain}.invoiceai.com</span>
+              </div>
             </div>
-          </div>
-          
-          {/* Main content */}
-          {children}
-        </main>
+            
+            {/* Main content */}
+            {children}
+          </main>
+          <DashboardFooter />
+        </div>
       </div>
-    </div>
+    </SidebarProvider>
   );
 };
 

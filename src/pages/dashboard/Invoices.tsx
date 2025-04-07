@@ -5,10 +5,14 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Badge } from '@/components/ui/badge';
 import DashboardLayout from '@/components/dashboard/DashboardLayout';
 import { toast } from 'sonner';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { PlusCircle, Tag, X } from 'lucide-react';
 
-// Sample invoice data
+// Sample invoice data with category and tags
 const invoices = [
   {
     id: 'INV-001',
@@ -17,6 +21,8 @@ const invoices = [
     date: '2024-03-05',
     status: 'Processed',
     gstId: 'GST123456789',
+    category: 'expense',
+    tags: ['office', 'monthly'],
     items: [
       { description: 'Paper A4', quantity: 10, price: 25.00 },
       { description: 'Pens (box)', quantity: 5, price: 15.00 },
@@ -30,6 +36,8 @@ const invoices = [
     date: '2024-03-10',
     status: 'Pending',
     gstId: 'GST987654321',
+    category: 'expense',
+    tags: ['hardware', 'equipment'],
     items: [
       { description: 'Laptop Dell XPS', quantity: 1, price: 2499.99 },
       { description: 'Monitor 27"', quantity: 2, price: 500.00 },
@@ -42,6 +50,8 @@ const invoices = [
     date: '2024-03-15',
     status: 'Processed',
     gstId: 'GST456789123',
+    category: 'expense',
+    tags: ['services', 'monthly'],
     items: [
       { description: 'Office Cleaning - March', quantity: 1, price: 850.00 },
     ]
@@ -53,6 +63,8 @@ const invoices = [
     date: '2024-03-18',
     status: 'Failed',
     gstId: 'GST789123456',
+    category: 'expense',
+    tags: ['marketing', 'quarterly'],
     items: [
       { description: 'SEO Services - Q1', quantity: 1, price: 2000.00 },
       { description: 'Social Media Campaign', quantity: 1, price: 1500.00 },
@@ -66,23 +78,65 @@ const invoices = [
     date: '2024-03-22',
     status: 'Processed',
     gstId: 'GST321654987',
+    category: 'expense',
+    tags: ['utilities', 'monthly'],
     items: [
       { description: 'Electricity - March', quantity: 1, price: 250.25 },
       { description: 'Water - March', quantity: 1, price: 130.00 },
     ]
   },
+  {
+    id: 'INV-006',
+    vendor: 'Alpha Corp',
+    amount: 5250.00,
+    date: '2024-03-25',
+    status: 'Processed',
+    gstId: 'GST456123789',
+    category: 'sales',
+    tags: ['product', 'enterprise'],
+    items: [
+      { description: 'Software License - Enterprise', quantity: 5, price: 1050.00 },
+    ]
+  },
+  {
+    id: 'INV-007',
+    vendor: 'Beta Solutions',
+    amount: 3200.00,
+    date: '2024-03-27',
+    status: 'Processed',
+    gstId: 'GST789456123',
+    category: 'sales',
+    tags: ['service', 'consultation'],
+    items: [
+      { description: 'Consulting Services - March', quantity: 16, price: 200.00 },
+    ]
+  },
 ];
+
+const availableTags = ['office', 'monthly', 'hardware', 'equipment', 'services', 'marketing', 'quarterly', 'utilities', 'product', 'enterprise', 'service', 'consultation', 'tax-deductible', 'recurring', 'one-time'];
 
 const Invoices: React.FC = () => {
   const [activeTab, setActiveTab] = useState('all');
   const [selectedInvoice, setSelectedInvoice] = useState<any>(null);
   const [search, setSearch] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('all');
+  const [newTag, setNewTag] = useState('');
+  
+  // Deep clone of invoices to allow modifications
+  const [invoiceData, setInvoiceData] = useState(JSON.parse(JSON.stringify(invoices)));
 
-  const filteredInvoices = invoices.filter(invoice => {
+  const filteredInvoices = invoiceData.filter((invoice: any) => {
+    // Filter by tab (status)
     if (activeTab !== 'all' && invoice.status.toLowerCase() !== activeTab) {
       return false;
     }
     
+    // Filter by category
+    if (categoryFilter !== 'all' && invoice.category !== categoryFilter) {
+      return false;
+    }
+    
+    // Filter by search text
     if (search) {
       return (
         invoice.id.toLowerCase().includes(search.toLowerCase()) ||
@@ -102,13 +156,75 @@ const Invoices: React.FC = () => {
   };
 
   const handleUpload = () => {
-    // In a real app, this would open a file picker dialog
     toast.success('Invoice upload simulation started');
     
     setTimeout(() => {
       toast.success('Invoice processed successfully');
-      // In a real app, this would add the new invoice to the list
     }, 2000);
+  };
+
+  const updateInvoiceCategory = (invoiceId: string, category: string) => {
+    const updatedInvoices = invoiceData.map((invoice: any) => {
+      if (invoice.id === invoiceId) {
+        return { ...invoice, category };
+      }
+      return invoice;
+    });
+    
+    setInvoiceData(updatedInvoices);
+    
+    if (selectedInvoice && selectedInvoice.id === invoiceId) {
+      setSelectedInvoice({ ...selectedInvoice, category });
+    }
+    
+    toast.success(`Invoice categorized as ${category}`);
+  };
+
+  const addTagToInvoice = (invoiceId: string, tag: string) => {
+    if (!tag.trim()) return;
+    
+    const updatedInvoices = invoiceData.map((invoice: any) => {
+      if (invoice.id === invoiceId) {
+        const tags = invoice.tags || [];
+        if (!tags.includes(tag)) {
+          return { ...invoice, tags: [...tags, tag] };
+        }
+      }
+      return invoice;
+    });
+    
+    setInvoiceData(updatedInvoices);
+    
+    if (selectedInvoice && selectedInvoice.id === invoiceId) {
+      const updatedTags = [...(selectedInvoice.tags || [])];
+      if (!updatedTags.includes(tag)) {
+        updatedTags.push(tag);
+        setSelectedInvoice({ ...selectedInvoice, tags: updatedTags });
+      }
+    }
+    
+    setNewTag('');
+  };
+
+  const removeTagFromInvoice = (invoiceId: string, tagToRemove: string) => {
+    const updatedInvoices = invoiceData.map((invoice: any) => {
+      if (invoice.id === invoiceId) {
+        return { 
+          ...invoice, 
+          tags: (invoice.tags || []).filter((tag: string) => tag !== tagToRemove) 
+        };
+      }
+      return invoice;
+    });
+    
+    setInvoiceData(updatedInvoices);
+    
+    if (selectedInvoice && selectedInvoice.id === invoiceId) {
+      setSelectedInvoice({ 
+        ...selectedInvoice, 
+        tags: (selectedInvoice.tags || []).filter((tag: string) => tag !== tagToRemove) 
+      });
+    }
   };
 
   return (
@@ -156,6 +272,23 @@ const Invoices: React.FC = () => {
                   className="w-full"
                 />
               </div>
+
+              <div className="mb-4">
+                <Label htmlFor="category-filter" className="mb-2 block">Category</Label>
+                <Select 
+                  value={categoryFilter} 
+                  onValueChange={setCategoryFilter}
+                >
+                  <SelectTrigger id="category-filter">
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Categories</SelectItem>
+                    <SelectItem value="sales">Sales</SelectItem>
+                    <SelectItem value="expense">Expense</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
               
               <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab}>
                 <TabsList className="grid w-full grid-cols-3 mb-4">
@@ -166,7 +299,7 @@ const Invoices: React.FC = () => {
 
                 <TabsContent value="all" className="m-0">
                   <div className="space-y-2">
-                    {filteredInvoices.map((invoice) => (
+                    {filteredInvoices.map((invoice: any) => (
                       <div 
                         key={invoice.id}
                         className={`p-3 rounded-md cursor-pointer border ${
@@ -196,6 +329,18 @@ const Invoices: React.FC = () => {
                           <span className="text-xs text-muted-foreground">
                             {new Date(invoice.date).toLocaleDateString()}
                           </span>
+                        </div>
+                        <div className="mt-2 flex items-center">
+                          <Badge className={`mr-2 ${
+                            invoice.category === 'sales' ? 'bg-blue-100 text-blue-800 hover:bg-blue-100' : 'bg-orange-100 text-orange-800 hover:bg-orange-100'
+                          }`}>
+                            {invoice.category === 'sales' ? 'Sales' : 'Expense'}
+                          </Badge>
+                          {invoice.tags && invoice.tags.length > 0 && (
+                            <span className="text-xs text-muted-foreground">
+                              {invoice.tags.length} tags
+                            </span>
+                          )}
                         </div>
                       </div>
                     ))}
@@ -240,7 +385,7 @@ const Invoices: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-6 mb-6">
+                <div className="grid grid-cols-3 gap-6 mb-6">
                   <div>
                     <h3 className="text-sm font-medium text-muted-foreground mb-1">Vendor</h3>
                     <p className="font-medium">{selectedInvoice.vendor}</p>
@@ -248,6 +393,85 @@ const Invoices: React.FC = () => {
                   <div>
                     <h3 className="text-sm font-medium text-muted-foreground mb-1">GST/VAT ID</h3>
                     <p className="font-medium">{selectedInvoice.gstId}</p>
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-medium text-muted-foreground mb-1">Category</h3>
+                    <Select 
+                      value={selectedInvoice.category} 
+                      onValueChange={(value) => updateInvoiceCategory(selectedInvoice.id, value)}
+                    >
+                      <SelectTrigger className="h-8">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="sales">Sales</SelectItem>
+                        <SelectItem value="expense">Expense</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="mb-6">
+                  <h3 className="text-sm font-medium text-muted-foreground mb-2">Tags</h3>
+                  <div className="flex flex-wrap gap-2 mb-2">
+                    {selectedInvoice.tags && selectedInvoice.tags.map((tag: string) => (
+                      <Badge key={tag} variant="outline" className="flex items-center gap-1">
+                        {tag}
+                        <button 
+                          onClick={() => removeTagFromInvoice(selectedInvoice.id, tag)}
+                          className="ml-1 text-muted-foreground hover:text-foreground"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </Badge>
+                    ))}
+                    {(!selectedInvoice.tags || selectedInvoice.tags.length === 0) && (
+                      <span className="text-sm text-muted-foreground">No tags</span>
+                    )}
+                  </div>
+                  <div className="flex gap-2">
+                    <Collapsible className="w-full">
+                      <CollapsibleTrigger asChild>
+                        <Button variant="outline" size="sm">
+                          <PlusCircle className="h-4 w-4 mr-2" />
+                          Add Tag
+                        </Button>
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="mt-2">
+                        <div className="flex flex-col gap-2">
+                          <div className="flex gap-2">
+                            <Input 
+                              placeholder="New tag" 
+                              value={newTag} 
+                              onChange={(e) => setNewTag(e.target.value)}
+                              className="h-8"
+                            />
+                            <Button 
+                              size="sm" 
+                              onClick={() => addTagToInvoice(selectedInvoice.id, newTag)}
+                              disabled={!newTag.trim()}
+                            >
+                              Add
+                            </Button>
+                          </div>
+                          <div className="text-sm text-muted-foreground mt-1">
+                            Or select from common tags:
+                          </div>
+                          <div className="flex flex-wrap gap-2 mt-1">
+                            {availableTags.slice(0, 8).map(tag => (
+                              <Badge 
+                                key={tag} 
+                                variant="outline" 
+                                className="cursor-pointer"
+                                onClick={() => addTagToInvoice(selectedInvoice.id, tag)}
+                              >
+                                {tag}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      </CollapsibleContent>
+                    </Collapsible>
                   </div>
                 </div>
 

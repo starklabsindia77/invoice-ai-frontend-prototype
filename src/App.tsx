@@ -14,6 +14,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Invoices from "./pages/dashboard/Invoices";
+import Analytics from "./pages/dashboard/Analytics";
 import Integrations from "./pages/dashboard/Integrations";
 import Subscription from "./pages/dashboard/Subscription";
 import Settings from "./pages/dashboard/Settings";
@@ -49,6 +50,7 @@ const App = () => (
                 {/* Dashboard Routes */}
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/dashboard/invoices" element={<Invoices />} />
+                <Route path="/dashboard/analytics" element={<Analytics />} />
                 <Route path="/dashboard/integrations" element={<Integrations />} />
                 <Route path="/dashboard/subscription" element={<Subscription />} />
                 <Route path="/dashboard/settings" element={<Settings />} />
