@@ -23,9 +23,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
           {/* Breadcrumb/tenant info */}
           <div className="mb-6 pb-4 border-b border-border">
             <div className="flex items-center text-sm text-muted-foreground">
-              <span>{tenant?.name || 'Your Workspace'}</span>
-              <span className="mx-2">•</span>
-              <span>{tenant?.subdomain}.invoiceai.com</span>
+              <span className="font-medium text-foreground">{tenant?.name || 'Your Workspace'}</span>
+              <span className="mx-2 text-muted-foreground">•</span>
+              <span className="text-muted-foreground">{tenant?.subdomain}.invoiceai.com</span>
             </div>
           </div>
           
