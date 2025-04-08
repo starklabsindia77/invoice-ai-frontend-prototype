@@ -26,6 +26,7 @@ import BlogPost from "./pages/BlogPost";
 import Help from "./pages/Help";
 import HelpArticle from "./pages/HelpArticle";
 import Contact from "./pages/Contact";
+import Features from "./pages/Features"; // Added new import
 
 // Private Pages
 import Dashboard from "./pages/dashboard/Dashboard";
@@ -83,6 +84,7 @@ const App = () => (
               <Route path="/help" element={<Help />} />
               <Route path="/help/:slug" element={<HelpArticle />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/features" element={<Features />} /> {/* Added new route */}
             </Route>
 
             {/* Private Routes (Dashboard) */}
