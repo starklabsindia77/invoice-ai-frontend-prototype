@@ -1,8 +1,8 @@
-
 import React, { ReactNode } from 'react';
 import { useApp } from '@/contexts/AppContext';
 import { Navigate } from 'react-router-dom';
 import DashboardSidebar from './DashboardSidebar';
+import DashboardHeader from './DashboardHeader';
 import DashboardFooter from './DashboardFooter';
 import { SidebarProvider } from '@/components/ui/sidebar';
 
@@ -22,6 +22,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       <div className="flex min-h-screen w-full bg-gray-50">
         <DashboardSidebar />
         <div className="flex-1 flex flex-col">
+          <DashboardHeader />
           <main className="flex-1 overflow-auto p-6">
             {/* Breadcrumb/tenant info */}
             <div className="mb-6 pb-4 border-b border-border">
