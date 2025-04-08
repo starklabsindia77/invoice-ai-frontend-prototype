@@ -19,7 +19,7 @@ const Navbar: React.FC = () => {
     <nav className="border-b border-border bg-white sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <div className="flex items-center">
-          <Logo variant="dark" />
+          <Link to="/"><Logo variant="dark" /></Link>
           
           {!isAuthenticated && (
             <div className="hidden md:flex items-center ml-10 space-x-1">

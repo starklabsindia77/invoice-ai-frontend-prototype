@@ -109,7 +109,7 @@ const Home: React.FC = () => {
                   <Button 
                     size="lg" 
                     variant="outline" 
-                    className="border-white text-white hover:bg-white/10 font-medium h-14 rounded-xl px-8"
+                    className="border-white text-white bg-white/10 font-medium h-14 rounded-xl px-8"
                     asChild
                   >
                     <Link to="/demo" className="flex items-center gap-2">
