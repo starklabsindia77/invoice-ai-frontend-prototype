@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -19,6 +20,12 @@ import Customers from "./pages/Customers";
 import Platforms from "./pages/Platforms";
 import Resources from "./pages/Resources";
 import NotFound from "./pages/NotFound";
+import Security from "./pages/Security";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
+import Help from "./pages/Help";
+import HelpArticle from "./pages/HelpArticle";
+import Contact from "./pages/Contact";
 
 // Private Pages
 import Dashboard from "./pages/dashboard/Dashboard";
@@ -27,6 +34,9 @@ import Analytics from "./pages/dashboard/Analytics";
 import Integrations from "./pages/dashboard/Integrations";
 import Subscription from "./pages/dashboard/Subscription";
 import Settings from "./pages/dashboard/Settings";
+
+// Components
+import ChatSupport from "./components/ChatSupport";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +55,7 @@ const PublicLayout: React.FC = () => {
         <Outlet />
       </div>
       <Footer />
+      <ChatSupport />
     </div>
   );
 };
@@ -66,6 +77,12 @@ const App = () => (
               <Route path="/customers" element={<Customers />} />
               <Route path="/platforms" element={<Platforms />} />
               <Route path="/resources" element={<Resources />} />
+              <Route path="/security" element={<Security />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/help" element={<Help />} />
+              <Route path="/help/:slug" element={<HelpArticle />} />
+              <Route path="/contact" element={<Contact />} />
             </Route>
 
             {/* Private Routes (Dashboard) */}

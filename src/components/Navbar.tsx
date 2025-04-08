@@ -10,7 +10,7 @@ import {
   DropdownMenuItem, 
   DropdownMenuTrigger 
 } from '@/components/ui/dropdown-menu';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Shield, HelpCircle, MessageSquare } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const { isAuthenticated, logout, tenant } = useApp();
@@ -114,7 +114,21 @@ const Navbar: React.FC = () => {
                 asChild
                 className="hidden md:inline-flex"
               >
-                <Link to="/contact">Contact</Link>
+                <Link to="/contact">
+                  <MessageSquare className="h-4 w-4 mr-2" />
+                  Contact
+                </Link>
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                asChild
+                className="hidden md:inline-flex"
+              >
+                <Link to="/help">
+                  <HelpCircle className="h-4 w-4 mr-2" />
+                  Help
+                </Link>
               </Button>
               <div className="h-4 w-px bg-border hidden md:block"></div>
               <Button 
