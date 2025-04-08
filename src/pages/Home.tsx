@@ -1102,7 +1102,7 @@ const Home: React.FC = () => {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="border-white text-white hover:bg-white/10 font-medium h-14 rounded-xl"
+                className="border-white text-white bg-white/10 font-medium h-14 rounded-xl"
                 asChild
               >
                 <Link to="/demo">Schedule a Demo</Link>
