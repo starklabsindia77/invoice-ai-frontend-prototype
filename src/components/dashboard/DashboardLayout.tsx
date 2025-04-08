@@ -1,3 +1,4 @@
+
 import React, { ReactNode } from 'react';
 import { useApp } from '@/contexts/AppContext';
 import { Navigate } from 'react-router-dom';
