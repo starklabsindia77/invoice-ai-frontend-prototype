@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, FileText, Book, HelpCircle, LifeBuoy, MessageSquare } from 'lucide-react';
+import { Search, FileText, Book, HelpCircle, LifeBuoy, MessageSquare, Shield } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
