@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -7,42 +6,11 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { useToast } from '@/components/ui/use-toast';
-import { Toast, ToastAction } from '@/components/ui/toast';
+import { useToast } from '@/hooks/use-toast';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { PlusCircle, Tag, X, ChevronDown, Globe, FileText, AlertTriangle } from 'lucide-react';
-
-// Enhanced Invoice Item type with optional tax information
-type InvoiceItem = {
-  description: string;
-  quantity: number;
-  price: number;
-  hsn?: string; // HSN code for Indian GST
-  taxRate?: number; // Tax rate percentage
-  taxAmount?: number; // Calculated tax amount
-};
-
-// Enhanced Invoice type with language and GST-specific fields
-type Invoice = {
-  id: string;
-  vendor: string;
-  amount: number;
-  date: string;
-  status: 'Processed' | 'Pending' | 'Failed';
-  gstId: string;
-  category: 'sales' | 'expense';
-  tags: string[];
-  items: InvoiceItem[];
-  language?: string; // Language of the invoice
-  currency?: string; // Currency code
-  // Indian GST specific fields
-  gstType?: 'CGST/SGST' | 'IGST' | 'Exempt';
-  gstFilingStatus?: 'Filed' | 'Pending' | 'Not Applicable';
-  gstFilingPeriod?: string;
-  placeOfSupply?: string;
-  reverseCharge?: boolean;
-  eInvoiceNumber?: string;
-};
+import { PlusCircle, Tag, X, ChevronDown, Globe, FileText, AlertTriangle, Upload, FileUp } from 'lucide-react';
+import UploadInvoiceModal from '@/components/invoice/UploadInvoiceModal';
+import { Invoice, InvoiceItem } from '@/types/invoice';
 
 // Sample enhanced invoice data with multiple languages and GST data
 const invoices = [
@@ -209,14 +177,15 @@ const gstTypeOptions = ['CGST/SGST', 'IGST', 'Exempt'];
 const Invoices = () => {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('all');
-  const [selectedInvoice, setSelectedInvoice] = useState(null);
+  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [languageFilter, setLanguageFilter] = useState('all');
   const [newTag, setNewTag] = useState('');
   const [showGstDetails, setShowGstDetails] = useState(false);
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
 
-  const [invoiceData, setInvoiceData] = useState(JSON.parse(JSON.stringify(invoices)));
+  const [invoiceData, setInvoiceData] = useState<Invoice[]>(JSON.parse(JSON.stringify(invoices)));
 
   const filteredInvoices = invoiceData.filter((invoice) => {
     if (activeTab !== 'all' && invoice.status.toLowerCase() !== activeTab) return false;
@@ -243,18 +212,19 @@ const Invoices = () => {
   });
   
   const handleUpload = () => {
-    toast({
-      title: "Started",
-      description: "Invoice upload simulation started",
-    });
-    
-    setTimeout(() => toast({
-      title: "Success",
-      description: "Invoice processed successfully",
-    }), 2000);
+    setIsUploadModalOpen(true);
   };
 
-  const updateInvoiceCategory = (invoiceId, category) => {
+  const handleUploadSuccess = (newInvoice: Invoice) => {
+    setInvoiceData(prevInvoices => [newInvoice, ...prevInvoices]);
+    
+    toast({
+      title: "Success",
+      description: "Invoice processed successfully",
+    });
+  };
+
+  const updateInvoiceCategory = (invoiceId: string, category: 'sales' | 'expense') => {
     const updatedInvoices = invoiceData.map((invoice) =>
       invoice.id === invoiceId ? { ...invoice, category } : invoice
     );
@@ -267,7 +237,7 @@ const Invoices = () => {
     });
   };
 
-  const addTagToInvoice = (invoiceId, tag) => {
+  const addTagToInvoice = (invoiceId: string, tag: string) => {
     if (!tag.trim()) return;
     const updatedInvoices = invoiceData.map((invoice) => {
       if (invoice.id === invoiceId && !invoice.tags.includes(tag)) {
@@ -282,7 +252,7 @@ const Invoices = () => {
     setNewTag('');
   };
 
-  const removeTagFromInvoice = (invoiceId, tagToRemove) => {
+  const removeTagFromInvoice = (invoiceId: string, tagToRemove: string) => {
     const updatedInvoices = invoiceData.map((invoice) =>
       invoice.id === invoiceId
         ? { ...invoice, tags: invoice.tags.filter((tag) => tag !== tagToRemove) }
@@ -298,7 +268,7 @@ const Invoices = () => {
   };
 
   // Helper function to format currency
-  const formatCurrency = (amount, currency = 'USD') => {
+  const formatCurrency = (amount: number, currency = 'USD') => {
     const currencyMap = {
       USD: { symbol: '$', locale: 'en-US' },
       INR: { symbol: '₹', locale: 'en-IN' },
@@ -306,7 +276,7 @@ const Invoices = () => {
       EUR: { symbol: '€', locale: 'de-DE' }
     };
 
-    const { locale, symbol } = currencyMap[currency] || currencyMap.USD;
+    const { locale, symbol } = currencyMap[currency as keyof typeof currencyMap] || currencyMap.USD;
     
     // For JPY, no decimal places
     const options = currency === 'JPY' 
@@ -317,7 +287,7 @@ const Invoices = () => {
   };
 
   // Helper function to get language display name
-  const getLanguageName = (code) => {
+  const getLanguageName = (code: string) => {
     const language = languageOptions.find(lang => lang.code === code);
     return language ? language.name : code;
   };
@@ -344,10 +314,7 @@ const Invoices = () => {
             Sync to Accounting
           </Button>
           <Button onClick={handleUpload}>
-            <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 5V19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+            <FileUp className="w-4 h-4 mr-2" />
             Upload Invoice
           </Button>
         </div>
@@ -562,7 +529,6 @@ const Invoices = () => {
                   </div>
                 </div>
 
-                {/* GST Information for Indian Invoices */}
                 {(selectedInvoice.gstType || selectedInvoice.placeOfSupply) && (
                   <div className="mb-6">
                     <Collapsible 
@@ -802,6 +768,12 @@ const Invoices = () => {
           )}
         </div>
       </div>
+      
+      <UploadInvoiceModal 
+        open={isUploadModalOpen} 
+        onOpenChange={setIsUploadModalOpen} 
+        onSuccess={handleUploadSuccess}
+      />
     </>
   );
 };

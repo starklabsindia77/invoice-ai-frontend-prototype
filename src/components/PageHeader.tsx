@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
 interface PageHeaderProps {
@@ -27,6 +27,8 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   backgroundClass = "bg-gradient-to-b from-primary/5 to-background",
   pageName
 }) => {
+  const navigate = useNavigate();
+
   return (
     <section className={`pt-20 pb-16 ${backgroundClass}`}>
       <div className="container mx-auto px-4 text-center">
@@ -51,22 +53,18 @@ const PageHeader: React.FC<PageHeaderProps> = ({
               {cta && (
                 <Button 
                   size="lg" 
-                  asChild
+                  onClick={() => navigate(cta.link)}
                 >
-                  <Link to={cta.link}>
-                    {cta.text}
-                  </Link>
+                  {cta.text}
                 </Button>
               )}
               {secondaryCta && (
                 <Button 
                   size="lg" 
                   variant="outline" 
-                  asChild
+                  onClick={() => navigate(secondaryCta.link)}
                 >
-                  <Link to={secondaryCta.link}>
-                    {secondaryCta.text}
-                  </Link>
+                  {secondaryCta.text}
                 </Button>
               )}
             </div>
