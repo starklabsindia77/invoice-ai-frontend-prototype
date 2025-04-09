@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -172,7 +173,8 @@ const languageOptions = [
 ];
 
 // GST Type options for Indian invoices
-const gstTypeOptions = ['CGST/SGST', 'IGST', 'Exempt'];
+const gstTypeOptions = ['CGST/SGST', 'IGST', 'Exempt'] as const;
+type GstType = typeof gstTypeOptions[number];
 
 const Invoices = () => {
   const { toast } = useToast();
@@ -509,7 +511,7 @@ const Invoices = () => {
                     <h3 className="text-sm font-medium text-muted-foreground mb-1">Category</h3>
                     <Select 
                       value={selectedInvoice.category} 
-                      onValueChange={(value) => updateInvoiceCategory(selectedInvoice.id, value)}
+                      onValueChange={(value: 'sales' | 'expense') => updateInvoiceCategory(selectedInvoice.id, value)}
                     >
                       <SelectTrigger className="h-8">
                         <SelectValue />
@@ -555,7 +557,7 @@ const Invoices = () => {
                               <h4 className="text-sm font-medium text-muted-foreground mb-1">GST Type</h4>
                               <Select 
                                 value={selectedInvoice.gstType}
-                                onValueChange={(value) => {
+                                onValueChange={(value: GstType) => {
                                   setSelectedInvoice({...selectedInvoice, gstType: value});
                                 }}
                               >
@@ -779,3 +781,4 @@ const Invoices = () => {
 };
 
 export default Invoices;
+
