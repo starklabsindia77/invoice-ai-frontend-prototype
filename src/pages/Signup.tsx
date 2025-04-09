@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -16,7 +15,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Building2, Briefcase, MapPin, Globe, User, Mail, Lock, Check, ArrowRight } from 'lucide-react';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 
-// Define schemas for each step
 const companyInfoSchema = z.object({
   companyName: z.string().min(2, "Company name must have at least 2 characters"),
   industry: z.string().min(1, "Please select an industry"),
@@ -39,14 +37,11 @@ const verificationSchema = z.object({
   verificationCode: z.string().length(6, "Verification code must be 6 digits")
 });
 
-// Combined schema for all steps
-const signupSchema = z.object({
-  ...companyInfoSchema.shape,
-  ...personalInfoSchema.shape,
-  ...verificationSchema.shape
-});
+type CompanyInfoData = z.infer<typeof companyInfoSchema>;
+type PersonalInfoData = z.infer<typeof personalInfoSchema>;
+type VerificationData = z.infer<typeof verificationSchema>;
 
-type SignupData = z.infer<typeof signupSchema>;
+type SignupData = CompanyInfoData & PersonalInfoData & VerificationData;
 
 const SignupStep = ({ 
   step, 
@@ -100,11 +95,10 @@ const Signup: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   
-  // Create form with the current step's schema
   const useCurrentForm = () => {
     switch (step) {
       case 1:
-        return useForm<z.infer<typeof companyInfoSchema>>({
+        return useForm<CompanyInfoData>({
           resolver: zodResolver(companyInfoSchema),
           defaultValues: {
             companyName: formData.companyName || '',
@@ -114,7 +108,7 @@ const Signup: React.FC = () => {
           }
         });
       case 2:
-        return useForm<z.infer<typeof personalInfoSchema>>({
+        return useForm<PersonalInfoData>({
           resolver: zodResolver(personalInfoSchema),
           defaultValues: {
             fullName: formData.fullName || '',
@@ -124,7 +118,7 @@ const Signup: React.FC = () => {
           }
         });
       case 3:
-        return useForm<z.infer<typeof verificationSchema>>({
+        return useForm<VerificationData>({
           resolver: zodResolver(verificationSchema),
           defaultValues: {
             verificationCode: formData.verificationCode || ''
@@ -138,7 +132,6 @@ const Signup: React.FC = () => {
   const form = useCurrentForm();
 
   const onSubmit = (data: any) => {
-    // Combine previous form data with current step data
     const updatedFormData = { ...formData, ...data };
     setFormData(updatedFormData);
     
@@ -146,14 +139,12 @@ const Signup: React.FC = () => {
       setStep(2);
     } else if (step === 2) {
       setStep(3);
-      // In a real app, we would send a verification code to the user's email
       toast.success("Verification code sent to your email", {
         description: "Please check your inbox"
       });
     } else if (step === 3) {
       setIsSubmitting(true);
       
-      // In a real app, this would verify the code with the backend
       setTimeout(() => {
         setIsSubmitting(false);
         setStep(4);
