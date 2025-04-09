@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, Outlet  } from "react-router-dom";
 import { AppProvider, useApp } from "@/contexts/AppContext";
+import { HelmetProvider } from "react-helmet-async";
 
 // Layouts
 import Navbar from "@/components/Navbar";
@@ -26,7 +27,13 @@ import BlogPost from "./pages/BlogPost";
 import Help from "./pages/Help";
 import HelpArticle from "./pages/HelpArticle";
 import Contact from "./pages/Contact";
-import Features from "./pages/Features"; // Added new import
+import Features from "./pages/Features";
+import CaseStudies from "./pages/CaseStudies";
+import AboutUs from "./pages/AboutUs";
+import Careers from "./pages/Careers";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import GdprCompliance from "./pages/GdprCompliance";
 
 // Private Pages
 import Dashboard from "./pages/dashboard/Dashboard";
@@ -64,96 +71,104 @@ const PublicLayout: React.FC = () => {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AppProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            {/* Public Routes */}
-            <Route element={<PublicLayout />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/pricing" element={<Pricing />} />
-              <Route path="/customers" element={<Customers />} />
-              <Route path="/platforms" element={<Platforms />} />
-              <Route path="/resources" element={<Resources />} />
-              <Route path="/security" element={<Security />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:slug" element={<BlogPost />} />
-              <Route path="/help" element={<Help />} />
-              <Route path="/help/:slug" element={<HelpArticle />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/features" element={<Features />} /> {/* Added new route */}
-            </Route>
+      <HelmetProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              {/* Public Routes */}
+              <Route element={<PublicLayout />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/pricing" element={<Pricing />} />
+                <Route path="/customers" element={<Customers />} />
+                <Route path="/platforms" element={<Platforms />} />
+                <Route path="/resources" element={<Resources />} />
+                <Route path="/security" element={<Security />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:slug" element={<BlogPost />} />
+                <Route path="/help" element={<Help />} />
+                <Route path="/help/:slug" element={<HelpArticle />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/features" element={<Features />} />
+                <Route path="/case-studies" element={<CaseStudies />} />
+                <Route path="/about" element={<AboutUs />} />
+                <Route path="/careers" element={<Careers />} />
+                <Route path="/privacy" element={<PrivacyPolicy />} />
+                <Route path="/terms" element={<TermsOfService />} />
+                <Route path="/gdpr" element={<GdprCompliance />} />
+              </Route>
 
-            {/* Private Routes (Dashboard) */}
-            <Route
-              path="/dashboard"
-              element={
-                <PrivateRoute>
-                  <DashboardLayout>
-                    <Dashboard />
-                  </DashboardLayout>
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/dashboard/invoices"
-              element={
-                <PrivateRoute>
-                  <DashboardLayout>
-                    <Invoices />
-                  </DashboardLayout>
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/dashboard/analytics"
-              element={
-                <PrivateRoute>
-                  <DashboardLayout>
-                    <Analytics />
-                  </DashboardLayout>
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/dashboard/integrations"
-              element={
-                <PrivateRoute>
-                  <DashboardLayout>
-                    <Integrations />
-                  </DashboardLayout>
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/dashboard/subscription"
-              element={
-                <PrivateRoute>
-                  <DashboardLayout>
-                    <Subscription />
-                  </DashboardLayout>
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/dashboard/settings"
-              element={
-                <PrivateRoute>
-                  <DashboardLayout>
-                    <Settings />
-                  </DashboardLayout>
-                </PrivateRoute>
-              }
-            />
+              {/* Private Routes (Dashboard) */}
+              <Route
+                path="/dashboard"
+                element={
+                  <PrivateRoute>
+                    <DashboardLayout>
+                      <Dashboard />
+                    </DashboardLayout>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/dashboard/invoices"
+                element={
+                  <PrivateRoute>
+                    <DashboardLayout>
+                      <Invoices />
+                    </DashboardLayout>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/dashboard/analytics"
+                element={
+                  <PrivateRoute>
+                    <DashboardLayout>
+                      <Analytics />
+                    </DashboardLayout>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/dashboard/integrations"
+                element={
+                  <PrivateRoute>
+                    <DashboardLayout>
+                      <Integrations />
+                    </DashboardLayout>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/dashboard/subscription"
+                element={
+                  <PrivateRoute>
+                    <DashboardLayout>
+                      <Subscription />
+                    </DashboardLayout>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/dashboard/settings"
+                element={
+                  <PrivateRoute>
+                    <DashboardLayout>
+                      <Settings />
+                    </DashboardLayout>
+                  </PrivateRoute>
+                }
+              />
 
-            {/* 404 */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
+              {/* 404 */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </HelmetProvider>
     </AppProvider>
   </QueryClientProvider>
 );

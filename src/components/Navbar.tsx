@@ -10,7 +10,7 @@ import {
   DropdownMenuItem, 
   DropdownMenuTrigger 
 } from '@/components/ui/dropdown-menu';
-import { ChevronDown, Shield, HelpCircle, MessageSquare } from 'lucide-react';
+import { ChevronDown, Shield, HelpCircle, MessageSquare, Users, Briefcase } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const { isAuthenticated, logout, tenant } = useApp();
@@ -38,6 +38,9 @@ const Navbar: React.FC = () => {
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
                     <Link to="/security" className="w-full">Security</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/case-studies" className="w-full">Case Studies</Link>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -69,13 +72,24 @@ const Navbar: React.FC = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
               
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                asChild
-              >
-                <Link to="/customers">Customers</Link>
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="flex items-center">
+                    Company <ChevronDown className="ml-1 h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-48 bg-white">
+                  <DropdownMenuItem asChild>
+                    <Link to="/about" className="w-full">About Us</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/customers" className="w-full">Customers</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/careers" className="w-full">Careers</Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           )}
         </div>
