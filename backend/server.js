@@ -10,7 +10,11 @@ const Sentry = require('@sentry/node');
 const routes = require('./routes');
 const { errorHandler } = require('./middleware/errorHandler');
 const logger = require('./utils/logger');
-const connectDB = require('./config/database');
+const { initDatabase } = require('./config/database');
+const { resolveTenant } = require('./middleware/tenantMiddleware');
+
+// Initialize Express
+const app = express();
 
 // Initialize Sentry
 Sentry.init({
@@ -22,9 +26,6 @@ Sentry.init({
   ],
   tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 1.0,
 });
-
-// Initialize Express
-const app = express();
 
 // The request handler must be the first middleware on the app
 app.use(Sentry.Handlers.requestHandler());
@@ -50,13 +51,13 @@ if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('combined', { stream: { write: message => logger.info(message.trim()) } }));
 }
 
-// Connect to database
-connectDB();
-
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', environment: process.env.NODE_ENV });
 });
+
+// Tenant resolution middleware for API routes
+app.use('/api', resolveTenant);
 
 // API routes
 app.use('/api', routes);
@@ -72,10 +73,16 @@ app.use((req, res) => {
   res.status(404).json({ success: false, message: 'Route not found' });
 });
 
-// Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  logger.info(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+// Initialize database
+initDatabase().then(() => {
+  // Start server
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    logger.info(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+  });
+}).catch(err => {
+  logger.error(`Database initialization failed: ${err.message}`);
+  process.exit(1);
 });
 
 module.exports = app; // For testing
