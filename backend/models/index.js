@@ -4,7 +4,7 @@ const MongoUser = require('./user.model');
 const MongoInvoice = require('./invoice.model');
 
 // PostgreSQL models
-const PostgresModels = require('./postgres');
+const TenantModels = require('./postgres/tenant');
 const PublicModels = require('./postgres/public');
 
 module.exports = {
@@ -13,10 +13,10 @@ module.exports = {
   MongoInvoice,
   
   // PostgreSQL tenant models
-  User: PostgresModels.User,
-  Invoice: PostgresModels.Invoice,
-  InvoiceItem: PostgresModels.InvoiceItem,
-  TenantConfig: PostgresModels.TenantConfig,
+  User: TenantModels.User,
+  Invoice: TenantModels.Invoice,
+  InvoiceItem: TenantModels.InvoiceItem,
+  TenantConfig: TenantModels.TenantConfig,
   
   // PostgreSQL public schema models
   Tenant: PublicModels.Tenant,
