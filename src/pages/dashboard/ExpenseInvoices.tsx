@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -15,7 +14,7 @@ import { Invoice, InvoiceCategory } from '@/types/invoice';
 import PageHeader from '@/components/PageHeader';
 
 // Sample invoice data - filtered for expenses only
-const expenseInvoices = [
+const expenseInvoices: Invoice[] = [
   {
     id: 'EINV-001',
     vendor: 'Office Supplies Ltd',
@@ -23,7 +22,7 @@ const expenseInvoices = [
     date: '2024-03-05',
     status: 'Processed',
     gstId: 'GST123456789',
-    category: 'expense' as const,
+    category: 'expense',
     tags: ['office', 'monthly'],
     language: 'en',
     currency: 'USD',
@@ -40,7 +39,7 @@ const expenseInvoices = [
     date: '2024-03-10',
     status: 'Pending',
     gstId: 'GST987654321',
-    category: 'expense' as const,
+    category: 'expense',
     tags: ['hardware', 'equipment'],
     language: 'en',
     currency: 'USD',
@@ -56,7 +55,7 @@ const expenseInvoices = [
     date: '2024-03-15',
     status: 'Processed',
     gstId: '27AADCB2230M1ZP',
-    category: 'expense' as const,
+    category: 'expense',
     tags: ['services', 'monthly'],
     language: 'hi',
     currency: 'INR',
@@ -84,7 +83,7 @@ const expenseInvoices = [
     date: '2024-03-18',
     status: 'Failed',
     gstId: 'GST789123456',
-    category: 'expense' as const,
+    category: 'expense',
     tags: ['marketing', 'quarterly'],
     language: 'en',
     currency: 'USD',
@@ -95,8 +94,6 @@ const expenseInvoices = [
     ]
   }
 ];
-
-const availableTags = ['office', 'monthly', 'hardware', 'equipment', 'services', 'marketing', 'quarterly', 'utilities', 'tax-deductible', 'recurring', 'one-time'];
 
 // Language display options
 const languageOptions = [

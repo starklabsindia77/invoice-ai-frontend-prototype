@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -15,7 +14,7 @@ import { Invoice, InvoiceCategory } from '@/types/invoice';
 import PageHeader from '@/components/PageHeader';
 
 // Sample invoice data - filtered for sales only
-const salesInvoices = [
+const salesInvoices: Invoice[] = [
   {
     id: 'SINV-001',
     vendor: 'ClientCorp Ltd',
@@ -23,7 +22,7 @@ const salesInvoices = [
     date: '2024-03-25',
     status: 'Processed',
     gstId: 'GST456123789',
-    category: 'sales' as const,
+    category: 'sales',
     tags: ['product', 'enterprise'],
     language: 'en',
     currency: 'USD',
@@ -38,7 +37,7 @@ const salesInvoices = [
     date: '2024-03-27',
     status: 'Processed',
     gstId: 'JP12345678901',
-    category: 'sales' as const,
+    category: 'sales',
     tags: ['service', 'consultation'],
     language: 'en',
     currency: 'USD',
@@ -53,7 +52,7 @@ const salesInvoices = [
     date: '2024-04-02',
     status: 'Pending',
     gstId: 'GST987123654',
-    category: 'sales' as const,
+    category: 'sales',
     tags: ['product', 'bulk'],
     language: 'en',
     currency: 'USD',
@@ -64,8 +63,6 @@ const salesInvoices = [
   }
 ];
 
-const availableTags = ['product', 'service', 'enterprise', 'consultation', 'bulk', 'recurring', 'one-time', 'discount'];
-
 // Language display options
 const languageOptions = [
   { code: 'en', name: 'English' },
@@ -74,6 +71,8 @@ const languageOptions = [
   { code: 'de', name: 'German (Deutsch)' },
   { code: 'es', name: 'Spanish (Español)' },
 ];
+
+const availableTags = ['product', 'service', 'enterprise', 'consultation', 'bulk', 'recurring', 'one-time', 'discount'];
 
 const SalesInvoices = () => {
   const { toast } = useToast();
@@ -97,7 +96,6 @@ const SalesInvoices = () => {
     return true;
   });
 
-  // Action handlers
   const handleExportCSV = () => toast({
     title: "Success",
     description: "Sales invoice data exported to CSV",
@@ -163,7 +161,6 @@ const SalesInvoices = () => {
     }
   };
 
-  // Helper function to format currency
   const formatCurrency = (amount: number, currency = 'USD') => {
     const currencyMap = {
       USD: { symbol: '$', locale: 'en-US' },
@@ -174,7 +171,6 @@ const SalesInvoices = () => {
 
     const { locale, symbol } = currencyMap[currency as keyof typeof currencyMap] || currencyMap.USD;
     
-    // For JPY, no decimal places
     const options = currency === 'JPY' 
       ? { minimumFractionDigits: 0, maximumFractionDigits: 0 }
       : { minimumFractionDigits: 2, maximumFractionDigits: 2 };
@@ -182,7 +178,6 @@ const SalesInvoices = () => {
     return `${symbol}${amount.toLocaleString(locale, options)}`;
   };
 
-  // Helper function to get language display name
   const getLanguageName = (code: string) => {
     const language = languageOptions.find(lang => lang.code === code);
     return language ? language.name : code;
