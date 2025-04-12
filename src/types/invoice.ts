@@ -8,6 +8,8 @@ export type InvoiceItem = {
   taxAmount?: number; // Calculated tax amount
 };
 
+export type InvoiceCategory = 'sales' | 'expense';
+
 export type Invoice = {
   id: string;
   vendor: string;
@@ -15,7 +17,7 @@ export type Invoice = {
   date: string;
   status: 'Processed' | 'Pending' | 'Failed';
   gstId: string;
-  category: 'sales' | 'expense';
+  category: InvoiceCategory;
   tags: string[];
   items: InvoiceItem[];
   language?: string; // Language of the invoice

@@ -37,7 +37,8 @@ import GdprCompliance from "./pages/GdprCompliance";
 
 // Private Pages
 import Dashboard from "./pages/dashboard/Dashboard";
-import Invoices from "./pages/dashboard/Invoices";
+import SalesInvoices from "./pages/dashboard/SalesInvoices";
+import ExpenseInvoices from "./pages/dashboard/ExpenseInvoices";
 import Analytics from "./pages/dashboard/Analytics";
 import Integrations from "./pages/dashboard/Integrations";
 import Subscription from "./pages/dashboard/Subscription";
@@ -113,11 +114,21 @@ const App = () => (
                 }
               />
               <Route
-                path="/dashboard/invoices"
+                path="/dashboard/sales-invoices"
                 element={
                   <PrivateRoute>
                     <DashboardLayout>
-                      <Invoices />
+                      <SalesInvoices />
+                    </DashboardLayout>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/dashboard/expense-invoices"
+                element={
+                  <PrivateRoute>
+                    <DashboardLayout>
+                      <ExpenseInvoices />
                     </DashboardLayout>
                   </PrivateRoute>
                 }
@@ -160,6 +171,14 @@ const App = () => (
                       <Settings />
                     </DashboardLayout>
                   </PrivateRoute>
+                }
+              />
+
+              {/* Redirect from the old invoices page to sales invoices */}
+              <Route
+                path="/dashboard/invoices"
+                element={
+                  <Navigate to="/dashboard/sales-invoices" replace />
                 }
               />
 

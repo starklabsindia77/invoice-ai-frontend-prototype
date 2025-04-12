@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Logo from '../Logo';
@@ -19,7 +20,9 @@ import {
   LineChart, 
   Download, 
   Settings, 
-  LogOut 
+  LogOut,
+  ArrowUpCircle,
+  ArrowDownCircle
 } from 'lucide-react';
 
 const DashboardSidebar: React.FC = () => {
@@ -64,12 +67,25 @@ const DashboardSidebar: React.FC = () => {
           <SidebarMenuItem>
             <SidebarMenuButton 
               asChild 
-              isActive={location.pathname === '/dashboard/invoices'} 
-              tooltip={isCollapsed ? "Invoices" : undefined}
+              isActive={location.pathname === '/dashboard/sales-invoices'} 
+              tooltip={isCollapsed ? "Sales Invoices" : undefined}
             >
-              <Link to="/dashboard/invoices" className="flex items-center">
-                <FileText className="size-5" />
-                <span className="ml-3">Invoices</span>
+              <Link to="/dashboard/sales-invoices" className="flex items-center">
+                <ArrowUpCircle className="size-5 text-blue-600" />
+                <span className="ml-3">Sales Invoices</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+
+          <SidebarMenuItem>
+            <SidebarMenuButton 
+              asChild 
+              isActive={location.pathname === '/dashboard/expense-invoices'} 
+              tooltip={isCollapsed ? "Expense Invoices" : undefined}
+            >
+              <Link to="/dashboard/expense-invoices" className="flex items-center">
+                <ArrowDownCircle className="size-5 text-orange-600" />
+                <span className="ml-3">Expense Invoices</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
