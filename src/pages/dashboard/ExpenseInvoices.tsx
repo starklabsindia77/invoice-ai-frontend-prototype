@@ -95,6 +95,9 @@ const expenseInvoices: Invoice[] = [
   }
 ];
 
+// Available tags for expense invoices
+const availableTags = ['office', 'monthly', 'hardware', 'equipment', 'services', 'marketing', 'quarterly', 'utilities', 'tax-deductible', 'recurring', 'one-time'];
+
 // Language display options
 const languageOptions = [
   { code: 'en', name: 'English' },
